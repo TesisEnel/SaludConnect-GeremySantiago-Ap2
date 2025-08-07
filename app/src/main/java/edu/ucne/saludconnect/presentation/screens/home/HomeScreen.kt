@@ -18,7 +18,9 @@ import edu.ucne.saludconnect.R
 
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
