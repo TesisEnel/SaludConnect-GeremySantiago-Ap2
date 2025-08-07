@@ -43,7 +43,7 @@ fun LoginScreen(
     LaunchedEffect(state.mensajeExito) {
         if (!state.mensajeExito.isNullOrEmpty()) {
             snackbarHostState.showSnackbar(state.mensajeExito!!)
-            viewModel.limpiarMensajeExito() // 🧹 limpiar después
+            viewModel.limpiarMensajeExito() // limpiar después
         }
     }
     Scaffold(

@@ -47,7 +47,9 @@ class LoginViewModel @Inject constructor(
 
                     if (paciente != null) {
                         // Ir a pantalla de perfil o dashboard
-                        event.navController.navigate("dashboard/${paciente.id}")
+                        event.navController.navigate("menu/${paciente.id}"){
+                            popUpTo("login") { inclusive = true } // Elimina login del stack
+                        }
                     } else {
                         _state.value = s.copy(mensajeError = "Credenciales incorrectas.")
                     }
