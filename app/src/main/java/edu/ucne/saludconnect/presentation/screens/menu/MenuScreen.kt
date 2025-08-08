@@ -18,11 +18,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.navigation.NavController
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import edu.ucne.saludconnect.presentation.screens.editar_perfil.EditarPacienteScreen
 import edu.ucne.saludconnect.presentation.screens.perfiles.DashboardScreen
 
 
@@ -32,11 +29,18 @@ fun MenuScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    // Definimos un NavController local para el NavHost de las pestañas
+    val nestedNavController = rememberNavController()
+
     val items = listOf(
         BottomNavItem("Inicio", Icons.Default.Home, "home"),
         BottomNavItem("Citas", Icons.Default.DateRange, "appointments"),
         BottomNavItem("Perfil", Icons.Default.Person, "dashboard")
     )
+
+    // ruta actual del grafo interno
+    val backStackEntry by nestedNavController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
 
     Scaffold(
         bottomBar = {
@@ -45,11 +49,14 @@ fun MenuScreen(
                     NavigationBarItem(
                         icon = { Icon(item.icon, contentDescription = item.title) },
                         label = { Text(item.title) },
-                        selected = navController.currentDestination?.route == item.route,
+                        selected = currentRoute == item.route,
                         onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo("menu/$pacienteId") { inclusive = false }
+                            nestedNavController.navigate(item.route) {
+                                popUpTo(nestedNavController.graph.startDestinationId) {
+                                    saveState = true
+                                }
                                 launchSingleTop = true
+                                restoreState = true
                             }
                         }
                     )
@@ -59,7 +66,7 @@ fun MenuScreen(
         modifier = modifier
     ) { innerPadding ->
         NavHost(
-            navController = navController,
+            navController = nestedNavController, // **Usa el NavController local aquí**
             startDestination = "dashboard",
             modifier = Modifier.padding(innerPadding)
         ) {
@@ -69,6 +76,8 @@ fun MenuScreen(
             composable("appointments") {
                 Text("Citas (por implementar)", Modifier.padding(24.dp))
             }
+            // Aquí, le pasamos el navController del HomeNavHost (el que recibimos como parámetro)
+            // para que pueda navegar fuera de MenuScreen.
             composable("dashboard") {
                 DashboardScreen(navController = navController, pacienteId = pacienteId)
             }
