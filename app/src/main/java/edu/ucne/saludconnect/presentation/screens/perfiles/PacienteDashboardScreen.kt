@@ -1,6 +1,5 @@
 package edu.ucne.saludconnect.presentation.screens.perfiles
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -24,7 +23,7 @@ import androidx.navigation.NavController
 import edu.ucne.saludconnect.R
 
 @Composable
-fun DashboardScreen(
+fun PacienteDashboardScreen(
     navController: NavController,
     pacienteId: Int,
     viewModel: DashboardViewModel = hiltViewModel()
@@ -73,7 +72,7 @@ fun DashboardScreen(
 
             // Botón editar
             Button(
-                onClick = {/* navController.navigate("editar_paciente/${paciente.id}") */},
+                onClick = { navController.navigate("editar_paciente/${it.id}") },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEEEEEE)),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp)
