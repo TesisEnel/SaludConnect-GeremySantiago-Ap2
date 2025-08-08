@@ -66,7 +66,7 @@ fun MenuScreen(
         modifier = modifier
     ) { innerPadding ->
         NavHost(
-            navController = nestedNavController, // **Usa el NavController local aquí**
+            navController = nestedNavController, // Usa el NavController local
             startDestination = "dashboard",
             modifier = Modifier.padding(innerPadding)
         ) {
@@ -81,18 +81,6 @@ fun MenuScreen(
             composable("dashboard") {
                 DashboardScreen(navController = navController, pacienteId = pacienteId)
             }
-            /*
-            composable(
-                route = "editar_paciente/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-            ) { backStackEntry ->
-                val id = backStackEntry.arguments?.getString("id")?.toIntOrNull()
-                id?.let {
-                    EditarPacienteScreen(navController, pacienteId = it)
-                }
-            }
-
-             */
         }
     }
 }
