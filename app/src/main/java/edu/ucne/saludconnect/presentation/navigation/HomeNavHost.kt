@@ -12,8 +12,10 @@ import edu.ucne.saludconnect.presentation.screens.editar_perfil.EditarPacienteSc
 import edu.ucne.saludconnect.presentation.screens.home.HomeScreen
 import edu.ucne.saludconnect.presentation.screens.login.LoginScreen
 import edu.ucne.saludconnect.presentation.screens.menu.MenuScreen
-import edu.ucne.saludconnect.presentation.screens.perfiles.DashboardScreen
+import edu.ucne.saludconnect.presentation.screens.perfiles.DoctorDashboardScreen
+import edu.ucne.saludconnect.presentation.screens.perfiles.PacienteDashboardScreen
 import edu.ucne.saludconnect.presentation.screens.pruebas.Destinos
+import edu.ucne.saludconnect.presentation.screens.registros.registro_medicos.RegistroMedicoScreen
 import edu.ucne.saludconnect.presentation.screens.registros.registro_pacientes.RegistroPacienteScreen
 
 @Composable
@@ -44,36 +46,55 @@ fun HomeNavHost(
             // Pantalla de registro de paciente
         }
         composable("register_doctor") {
-            // Aquí irá la pantalla de registro de médico
+            RegistroMedicoScreen(navController)
+            // Pantalla de registro de médico
         }
         composable("login") {
             LoginScreen(navController) // Asegúrate de tener LoginScreen definida
         }
-        composable("menu/{id}") { backStackEntry ->
-            val pacienteId = backStackEntry.arguments?.getString("id")?.toIntOrNull()
+
+
+        composable("menu/{pacienteId}") { backStackEntry ->
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")?.toIntOrNull()
             pacienteId?.let {
                 MenuScreen(navController = navController, pacienteId = it)
             }
         }
 
 
+
+        /*
+        composable("editar_paciente/{id}") { backStackEntry ->
+            val pacienteId = backStackEntry.arguments?.getString("id")?.toIntOrNull()
+            pacienteId?.let {
+                EditarPacienteScreen(navController, pacienteId = it)
+            }
+        }
+         */
         composable("dashboard/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toIntOrNull()
             id?.let {
-                DashboardScreen(navController, pacienteId = it)
+                PacienteDashboardScreen(navController, pacienteId = it)
             }
         }
 
-        /*
-       composable(
+        composable("doctor_dashboard/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull()
+            id?.let {
+                DoctorDashboardScreen(navController, doctorId = it)
+            }
+        }
+
+
+        composable(
            route = "editar_paciente/{id}",
            arguments = listOf(navArgument("id") { type = NavType.IntType })
        ) { backStackEntry ->
-           val pacienteId = backStackEntry.arguments?.getString("id")?.toIntOrNull()
+           val pacienteId = backStackEntry.arguments?.getInt("id")
            pacienteId?.let {
                EditarPacienteScreen(navController, pacienteId = it)
            }
-       }*/
+       }
 
     }
 }
