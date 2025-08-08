@@ -20,7 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
-import edu.ucne.saludconnect.presentation.screens.perfiles.DashboardScreen
+import edu.ucne.saludconnect.presentation.screens.perfiles.PacienteDashboardScreen
 
 
 @Composable
@@ -67,7 +67,7 @@ fun MenuScreen(
     ) { innerPadding ->
         NavHost(
             navController = nestedNavController, // Usa el NavController local
-            startDestination = "dashboard",
+            startDestination = "pacientedashboard",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") {
@@ -78,8 +78,8 @@ fun MenuScreen(
             }
             // Aquí, le pasamos el navController del HomeNavHost (el que recibimos como parámetro)
             // para que pueda navegar fuera de MenuScreen.
-            composable("dashboard") {
-                DashboardScreen(navController = navController, pacienteId = pacienteId)
+            composable("pacientedashboard") {
+                PacienteDashboardScreen(navController = navController, pacienteId = pacienteId)
             }
         }
     }
