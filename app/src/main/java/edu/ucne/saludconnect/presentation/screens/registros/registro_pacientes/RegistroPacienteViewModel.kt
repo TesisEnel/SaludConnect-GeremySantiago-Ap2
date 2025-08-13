@@ -65,11 +65,6 @@ class RegistroPacienteViewModel @Inject constructor(
                     return
                 }
 
-                /*if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.correo).matches()) {
-                    _state.value = s.copy(mensajeError = "El correo no es válido.")
-                    return
-                }*/
-
                 //si todo está correcto, limpiar el mensaje de error y guardar
                 _state.value = s.copy(mensajeError = null)
 

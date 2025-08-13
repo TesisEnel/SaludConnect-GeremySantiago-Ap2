@@ -48,14 +48,15 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(48.dp))
 
         // Botón: Registrarse como Paciente
-        Button(
+        OutlinedButton(
             onClick = {
                 navController.navigate("register_patient")
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
         ) {
             Text("Registrarse como Paciente")
         }
@@ -78,10 +79,10 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //Nuevo botón: Iniciar Sesión
+        //Botón: Iniciar Sesión
         TextButton(
             onClick = {
-                navController.navigate("login") // debe existir en tu NavGraph
+                navController.navigate("login")
             }
         ) {
             Text("¿Ya tienes cuenta? Iniciar Sesión")

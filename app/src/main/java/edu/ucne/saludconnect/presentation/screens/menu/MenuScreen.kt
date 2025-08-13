@@ -4,7 +4,6 @@ package edu.ucne.saludconnect.presentation.screens.menu
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,24 +18,38 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import edu.ucne.saludconnect.presentation.screens.citas.NuevaCitaScreen
+import edu.ucne.saludconnect.presentation.screens.citas.CitasMedicoScreen
+import edu.ucne.saludconnect.presentation.screens.inicio.InicioHomeRoute
+import edu.ucne.saludconnect.presentation.screens.perfiles.DoctorDashboardScreen
 import edu.ucne.saludconnect.presentation.screens.perfiles.PacienteDashboardScreen
 
 
 @Composable
 fun MenuScreen(
-    pacienteId: Int,
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    usuarioId: Int,
+    esDoctor: Boolean
 ) {
-    // Definimos un NavController local para el NavHost de las pestañas
+    // Controlador LOCAL para las pestañas del menú
     val nestedNavController = rememberNavController()
 
-    val items = listOf(
-        BottomNavItem("Inicio", Icons.Default.Home, "home"),
-        BottomNavItem("Citas", Icons.Default.DateRange, "appointments"),
-        BottomNavItem("Perfil", Icons.Default.Person, "dashboard")
-    )
+    val items = if (esDoctor) {
+        listOf(
+            BottomNavItem("Inicio", Icons.Default.Home, "home"),
+            BottomNavItem("Citas", Icons.Default.DateRange, "cita_medico"),
+            BottomNavItem("Perfil", Icons.Default.Person, "doctor_dashboard")
+        )
+    } else {
+        listOf(
+            BottomNavItem("Inicio", Icons.Default.Home, "home"),
+            BottomNavItem("Citas", Icons.Default.DateRange, "nueva_cita"),
+            BottomNavItem("Perfil", Icons.Default.Person, "paciente_dashboard")
+        )
+    }
 
     // ruta actual del grafo interno
     val backStackEntry by nestedNavController.currentBackStackEntryAsState()
@@ -52,7 +65,9 @@ fun MenuScreen(
                         selected = currentRoute == item.route,
                         onClick = {
                             nestedNavController.navigate(item.route) {
-                                popUpTo(nestedNavController.graph.startDestinationId) {
+                                // Seguridad: vuelve al start del grafo interno sin recrear todo
+                                val startId = nestedNavController.graph.findStartDestination().id
+                                popUpTo(startId) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
@@ -67,19 +82,34 @@ fun MenuScreen(
     ) { innerPadding ->
         NavHost(
             navController = nestedNavController, // Usa el NavController local
-            startDestination = "pacientedashboard",
+            startDestination = "home",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") {
-                Text("Pantalla Inicio", Modifier.padding(24.dp))
+                InicioHomeRoute(
+                    usuarioId = usuarioId,
+                    esDoctor = esDoctor
+                )
             }
-            composable("appointments") {
-                Text("Citas (por implementar)", Modifier.padding(24.dp))
+            composable("nueva_cita") {
+                NuevaCitaScreen(navController = navController)
             }
-            // Aquí, le pasamos el navController del HomeNavHost (el que recibimos como parámetro)
+            composable("cita_medico") {
+                CitasMedicoScreen(navController = navController)
+            }
+            // Perfil según el rol. OJO: aquí pasamos el GLOBAL para navegar a flows fuera del menú
             // para que pueda navegar fuera de MenuScreen.
-            composable("pacientedashboard") {
-                PacienteDashboardScreen(navController = navController, pacienteId = pacienteId)
+            composable("paciente_dashboard") {
+                PacienteDashboardScreen(
+                    navController = navController,
+                    pacienteId = usuarioId
+                )
+            }
+            composable("doctor_dashboard") {
+                DoctorDashboardScreen(
+                    navController = navController,
+                    doctorId = usuarioId
+                )
             }
         }
     }

@@ -83,7 +83,11 @@ fun LoginScreen(
 }
 
 @Composable
-fun InputField(label: String, value: String, onValueChange: (String) -> Unit) {
+fun InputField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,

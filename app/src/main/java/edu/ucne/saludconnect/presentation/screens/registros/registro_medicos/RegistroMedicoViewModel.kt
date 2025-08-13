@@ -1,6 +1,5 @@
 package edu.ucne.saludconnect.presentation.screens.registros.registro_medicos
 
-import android.util.Patterns
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

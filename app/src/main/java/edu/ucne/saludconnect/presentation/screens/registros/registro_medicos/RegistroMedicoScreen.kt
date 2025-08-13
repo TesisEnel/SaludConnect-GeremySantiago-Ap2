@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
@@ -31,10 +33,9 @@ fun RegistroMedicoScreen(
     }
 
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = { Text("Registro de Médico") })
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
     ) { inner ->
         Column(
             modifier = Modifier
@@ -43,6 +44,10 @@ fun RegistroMedicoScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
+            Text("Registro de Médico", fontWeight = FontWeight.Bold, fontSize = 22.sp)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Error visible
             if (!state.mensajeError.isNullOrEmpty()) {
                 Text(

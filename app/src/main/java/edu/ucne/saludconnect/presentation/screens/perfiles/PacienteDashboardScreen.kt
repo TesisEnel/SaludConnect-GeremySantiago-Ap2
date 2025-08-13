@@ -52,7 +52,7 @@ fun PacienteDashboardScreen(
 
             // Imagen de perfil
             Image(
-                painter = painterResource(id = R.drawable.paciente1), // cambia por tu avatar real
+                painter = painterResource(id = R.drawable.persona),
                 contentDescription = "Foto de perfil",
                 modifier = Modifier
                     .size(130.dp)
