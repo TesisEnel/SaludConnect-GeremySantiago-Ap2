@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,12 +61,13 @@ fun DoctorDashboardScreen(
 
         // Avatar
         Image(
-            painter = painterResource(id = R.drawable.doctora2),
+            painter = painterResource(id = R.drawable.doctora4),
             contentDescription = "Foto de perfil",
             modifier = Modifier
-                .size(140.dp)
+                .size(130.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color(0xFFE3E6EA), CircleShape)
+                .border(2.dp, Color(0xFFE3E6EA), CircleShape),
+            contentScale = ContentScale.Crop
         )
 
         Spacer(Modifier.height(16.dp))
