@@ -39,7 +39,7 @@ fun PacienteDashboardScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(24.dp),
+                .padding(horizontal = 24.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Título
@@ -104,7 +104,7 @@ fun PacienteDashboardScreen(
 
             Button(
                 onClick = { navController.popBackStack() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF673AB7)),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0C30B4)),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -121,12 +121,29 @@ fun PacienteDashboardScreen(
 }
 
 @Composable
-fun InfoItem(label: String, value: String) {
-    Column(modifier = Modifier
+fun InfoItem(
+    label: String,
+    value: String
+) {
+    /*Column(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 4.dp)) {
         Text(label, fontWeight = FontWeight.Medium, color = Color(0xFF607D8B))
         Text(value, modifier = Modifier.padding(start = 8.dp))
+    }
+
+     */
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 72.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(16.dp))
+        Column(Modifier.weight(1f)) {
+            Text(label, style = MaterialTheme.typography.titleMedium)
+            Text(value, color = Color(0xFF6A7C8A), fontSize = 18.sp)
+        }
     }
 }
 
