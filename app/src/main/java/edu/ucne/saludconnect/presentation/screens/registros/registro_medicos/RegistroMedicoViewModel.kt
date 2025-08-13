@@ -23,12 +23,11 @@ class RegistroMedicoViewModel @Inject constructor(
         when (e) {
             is RegistroMedicoEvent.NombreChanged     -> _state.value = state.value.copy(nombre = e.v)
             is RegistroMedicoEvent.ApellidoChanged   -> _state.value = state.value.copy(apellido = e.v)
-            is RegistroMedicoEvent.LicenciaChanged   -> _state.value = state.value.copy(licencia = e.v)
+            is RegistroMedicoEvent.CedulaChanged   -> _state.value = state.value.copy(cedula = e.v)
             is RegistroMedicoEvent.EspecialidadChanged -> _state.value = state.value.copy(especialidad = e.v)
             is RegistroMedicoEvent.TelefonoChanged   -> _state.value = state.value.copy(telefono = e.v)
             is RegistroMedicoEvent.CorreoChanged     -> _state.value = state.value.copy(correo = e.v)
             is RegistroMedicoEvent.HospitalChanged   -> _state.value = state.value.copy(hospital = e.v)
-            is RegistroMedicoEvent.BioChanged        -> _state.value = state.value.copy(bio = e.v)
 
             RegistroMedicoEvent.Registrar -> registrar()
             RegistroMedicoEvent.ClearSuccess -> _state.value = state.value.copy(mensajeExito = null)
@@ -39,19 +38,21 @@ class RegistroMedicoViewModel @Inject constructor(
         val s = state.value
 
         // Validaciones básicas
-        if (s.nombre.isBlank() || s.apellido.isBlank() || s.licencia.isBlank()
+        if (s.nombre.isBlank() || s.apellido.isBlank() || s.cedula.isBlank()
             || s.especialidad.isBlank() || s.telefono.isBlank()
             || s.correo.isBlank() || s.hospital.isBlank()
         ) {
             _state.value = s.copy(mensajeError = "Completa todos los campos obligatorios.")
             return@launch
         }
+        /*
         if (!Patterns.EMAIL_ADDRESS.matcher(s.correo).matches()) {
             _state.value = s.copy(mensajeError = "Correo inválido.")
             return@launch
         }
-        if (doctorDao.getByLicencia(s.licencia) != null) {
-            _state.value = s.copy(mensajeError = "La licencia ya existe.")
+         */
+        if (doctorDao.getByCedula(s.cedula) != null) {
+            _state.value = s.copy(mensajeError = "La cedula ya existe.")
             return@launch
         }
 
@@ -61,12 +62,11 @@ class RegistroMedicoViewModel @Inject constructor(
             DoctorEntity(
                 nombre = s.nombre,
                 apellido = s.apellido,
-                licencia = s.licencia,
+                cedula = s.cedula,
                 especialidad = s.especialidad,
                 telefono = s.telefono,
                 correo = s.correo,
                 hospital = s.hospital,
-                bio = s.bio
             )
         )
 

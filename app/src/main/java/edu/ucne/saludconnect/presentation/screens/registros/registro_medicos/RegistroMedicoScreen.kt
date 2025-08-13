@@ -58,8 +58,8 @@ fun RegistroMedicoScreen(
                 viewModel.onEvent(RegistroMedicoEvent.NombreChanged(it)) }
             OutField("Apellido", state.apellido) {
                 viewModel.onEvent(RegistroMedicoEvent.ApellidoChanged(it)) }
-            OutField("Licencia (cédula)", state.licencia) {
-                viewModel.onEvent(RegistroMedicoEvent.LicenciaChanged(it)) }
+            OutField("Cédula", state.cedula) {
+                viewModel.onEvent(RegistroMedicoEvent.CedulaChanged(it)) }
             OutField("Especialidad", state.especialidad) {
                 viewModel.onEvent(RegistroMedicoEvent.EspecialidadChanged(it)) }
             OutField("Teléfono", state.telefono) {
@@ -68,16 +68,6 @@ fun RegistroMedicoScreen(
                 viewModel.onEvent(RegistroMedicoEvent.CorreoChanged(it)) }
             OutField("Hospital / Centro", state.hospital) {
                 viewModel.onEvent(RegistroMedicoEvent.HospitalChanged(it)) }
-
-            OutlinedTextField(
-                value = state.bio,
-                onValueChange = { viewModel.onEvent(RegistroMedicoEvent.BioChanged(it)) },
-                label = { Text("Bio (opcional)") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 100.dp)
-                    .padding(top = 6.dp)
-            )
 
             Spacer(Modifier.height(18.dp))
 
