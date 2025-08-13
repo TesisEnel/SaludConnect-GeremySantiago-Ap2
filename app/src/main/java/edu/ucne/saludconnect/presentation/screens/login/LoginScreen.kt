@@ -1,6 +1,5 @@
 package edu.ucne.saludconnect.presentation.screens.login
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,14 +34,13 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
-    val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
 
     LaunchedEffect(state.mensajeExito) {
         if (!state.mensajeExito.isNullOrEmpty()) {
             snackbarHostState.showSnackbar(state.mensajeExito!!)
-            viewModel.limpiarMensajeExito() // 🧹 limpiar después
+            viewModel.limpiarMensajeExito() // limpiar después
         }
     }
     Scaffold(
@@ -86,7 +83,11 @@ fun LoginScreen(
 }
 
 @Composable
-fun InputField(label: String, value: String, onValueChange: (String) -> Unit) {
+fun InputField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,

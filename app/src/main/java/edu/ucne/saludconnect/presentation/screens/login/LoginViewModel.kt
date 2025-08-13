@@ -7,11 +7,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.saludconnect.data.local.dao.PacienteDao
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import edu.ucne.saludconnect.data.local.dao.DoctorDao
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val pacienteDao: PacienteDao
+    private val pacienteDao: PacienteDao,
+    private val doctorDao: DoctorDao
 ) : ViewModel() {
 
     private val _state = mutableStateOf(LoginState())
@@ -40,17 +42,32 @@ class LoginViewModel @Inject constructor(
                         return@launch
                     }
 
-                    val pacientes = pacienteDao.obtenerPacientes()
-                    val paciente = pacientes.find {
+                    // Buscar paciente
+                    val paciente = pacienteDao.obtenerPacientes().find {
                         it.cedula == cedulaLong && it.telefono == s.telefono
                     }
 
                     if (paciente != null) {
-                        // Ir a pantalla de perfil o dashboard
-                        event.navController.navigate("dashboard/${paciente.id}")
-                    } else {
-                        _state.value = s.copy(mensajeError = "Credenciales incorrectas.")
+                        event.navController.navigate("menu_patient/${paciente.id}") {
+                            popUpTo("login") { inclusive = true }
+                        }
+                        return@launch
                     }
+
+                    // Si no es paciente, buscar médico
+                    val doctor = doctorDao.getAll().find {
+                        it.cedula.toLongOrNull() == cedulaLong && it.telefono == s.telefono
+                    }
+
+                    if (doctor != null) {
+                        event.navController.navigate("menu_doctor/${doctor.id}") {
+                            popUpTo("login") { inclusive = true }
+                        }
+                        return@launch
+                    }
+
+                    // Si no es ninguno
+                    _state.value = s.copy(mensajeError = "Credenciales incorrectas.")
                 }
             }
         }
