@@ -52,7 +52,10 @@ fun DoctorDashboardScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Título
-        Text("Perfil", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        Text(
+            "Perfil",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(16.dp))
 
         // Avatar
@@ -97,12 +100,15 @@ fun DoctorDashboardScreen(
         Spacer(Modifier.height(28.dp))
 
         // (Opcional) Botón atrás o cerrar sesión, según tu flujo
-        OutlinedButton(
+        Button(
             onClick = { navController.popBackStack() },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0C36B4)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(32.dp)
         ) {
-            Text("Volver")
+            Text("Cerrar sesión", color = Color.White)
         }
     }
 }
